@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+"""
+    sitespy.py
+    ~~~~~~~~~
+
+    Created by lhuizhong@gmail.com at 2015-11-21
+
+"""
+
 import requests
 from lxml import etree
 import re
