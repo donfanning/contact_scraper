@@ -13,6 +13,8 @@ import re
 import sys
 from urlparse import urljoin
 
+user_agent = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'
+
 def scrape_tel(url, keys, col_site, html, identifier='office|tel|call|phone|T:|T', echo=False):
     tel = ''
     if tel == '' and ('.au' in keys or col_site.endswith('.au')): # in Australia
@@ -152,7 +154,9 @@ def sitespy(url, keys=[], echo=False):
         print 'website:%s' % col_site
 
     datas = {}
-    html = requests.get(url).text
+    if echo:
+        print 'Opening ' + url
+    html = requests.get(url, headers={'User-Agent':user_agent}).text
 
     #Initial keys.
     if 'email' in keys or 'siteemail' in keys:
@@ -173,7 +177,9 @@ def sitespy(url, keys=[], echo=False):
                     tmp = tree.xpath('//a[contains(*/text(),"contact") or contains(*/text(),"Contact") or contains(*/text(),"CONTACT")]/@href')
                 if tmp:
                     u = urljoin(url, tmp[0])
-                    html = requests.get(u).text
+                    if echo:
+                        print 'Opening ' + u
+                    html = requests.get(u, headers={'User-Agent':user_agent}).text
                 if echo :
                     print 'Scan contact page...'
             except Exception:
